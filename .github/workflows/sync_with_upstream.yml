@@ -27,7 +27,14 @@ jobs:
           git config --local user.name "GitHub Actions Bot"
 
       - name: Merge Upstream into Fork
-        run: git merge upstream/master --allow-unrelated-histories
+        run: git merge upstream/master || true
+
+      - name: Resolve Conflicts (Keep Your Branch Changes)
+        run: |
+          git merge upstream/master || true
+          git checkout --ours .
+          git add .
+          git commit -m "Resolved merge conflicts keeping local branch changes"
 
       - name: Push Changes to Fork
         run: git push origin master
