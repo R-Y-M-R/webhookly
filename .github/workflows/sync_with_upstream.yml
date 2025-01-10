@@ -16,16 +16,18 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Add Upstream Repository
-        run: git remote add upstream https://github.com/micartey/webhookly.git
+        run: git remote add upstream https://github.com/original-owner/original-repo.git
 
       - name: Fetch Upstream Changes
         run: git fetch upstream
+
+      - name: Configure Git User
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions Bot"
 
       - name: Merge Upstream into Fork
         run: git merge upstream/master --allow-unrelated-histories
 
       - name: Push Changes to Fork
         run: git push origin master
-        env:
-          GIT_COMMITTER_NAME: GitHub Actions
-          GIT_COMMITTER_EMAIL: actions@github.com
